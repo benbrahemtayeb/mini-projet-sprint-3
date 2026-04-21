@@ -1,0 +1,176 @@
+<style>
+    /* ========================================
+UPDATE-JOUEUR.CSS - Styles for update-joueur.html
+======================================== */
+
+.update-container {
+    margin-left: 37%;
+    max-width: 600px;
+}
+
+.update-title {
+    color: #333;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.col-sm-2, .col-sm-4, .col-md-2, .col-md-4, .col-lg-2, .col-lg-4 {
+    margin-bottom: 15px;
+}
+
+.form-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.form-control:focus {
+    border-color: #6366f1;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.form-control-lg {
+    padding: 12px 16px;
+    font-size: 16px;
+}
+
+.text-danger {
+    color: #ef4444;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    color: white;
+    margin-top: 10px;
+}
+
+.btn-success {
+    background-color: #10b981;
+}
+
+.btn-success:hover {
+    background-color: #059669;
+}
+
+.btn-success:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+}
+
+.form-control[readonly] {
+    background-color: #f9fafb;
+    color: #6b7280;
+    cursor: not-allowed;
+}
+</style>
+<br><div style="margin-left: 37%;" class="container">
+    <div>
+        <h1>Modifier un Joueur:</h1>
+        <br>
+    </div>
+    <form [formGroup]="joueurForm">
+        <div class="col-sm-2 col-md-2 col-lg-2">
+            <label>ID Joueur</label>
+            <input readonly type="text" [(ngModel)]="currentJoueur.idJoueur" formControlName="idJoueur" name="idJoueur" class="form-control">
+            @if (joueurForm.controls['idJoueur']?.hasError('required') && joueurForm.controls['idJoueur']?.touched) {
+                <div class="text-danger">ID est obloigatoire</div>
+            }
+            @if (joueurForm.controls['idJoueur']?.hasError('pattern') && joueurForm.controls['idJoueur']?.touched) {
+                <div class="text-danger">ID doit être un numéro</div>
+            }
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4">
+            <label>Nom Joueur</label>
+            <input type="text" [(ngModel)]="currentJoueur.nomJoueur" formControlName="nomJoueur" name="nomJoueur" class="form-control">
+            @if (joueurForm.controls['nomJoueur']?.hasError('required') && joueurForm.controls['nomJoueur']?.touched) {
+                <div class="text-danger">Nom est obligatoire</div>
+                
+            }
+            @if (joueurForm.controls['nomJoueur']?.hasError('minlength') && joueurForm.controls['nomJoueur']?.touched) {
+                <div class="text-danger">Nom doit contient au minimum 6 chractères</div>
+            }
+            @if (joueurForm.controls['nomJoueur']?.hasError('pattern') && joueurForm.controls['nomJoueur']?.touched) {
+                <div class="text-danger">Editez le nom</div>
+            }
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4">
+            <label>Email</label>
+            <input type="text" [(ngModel)]="currentJoueur.email" formControlName="email" name="email" class="form-control">
+            @if (joueurForm.controls['email']?.hasError('required') && joueurForm.controls['email']?.touched) {
+                <div class="text-danger">Email est obligatoire</div>
+                
+            }
+            @if (joueurForm.controls['email']?.hasError('email') && joueurForm.controls['email']?.touched) {
+                <div class="text-danger">Votre email est invalid</div>
+            }
+            
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4">
+            <label>Equipe</label>
+            <select class="form-control form-control-lg" [(ngModel)]="updatedEquipeId" formControlName="equipe" id="idEquipe" name="idEquipe">
+                @for(equipe of equipes; track equipe.idEquipe){
+                    <option [value]="equipe.idEquipe">{{equipe.nomEquipe}}</option>
+                }
+            </select>
+            @if (joueurForm.controls['equipe']?.hasError('required') && joueurForm.controls['equipe']?.touched) {
+                <div class="text-danger">Equipe est obligatoire</div>
+                
+            }
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4">
+            <label>Date Transfert</label>
+            <input type="date" [ngModel]="currentJoueur.dateTransfert | date: 'yyyy-MM-dd'" (ngModelChange)=" currentJoueur.dateTransfert= $event" name="dateTransfert" formControlName="dateTransfert" class="form-control">
+            @if (joueurForm.controls['dateTransfert']?.hasError('required') && joueurForm.controls['dateTransfert']?.touched) {
+                <div class="text-danger">Date est obligatoire</div>
+            }
+        </div>
+        <div class="col-sm-2 col-md-2 col-lg-2">
+            <label>Durée de Contrat</label>
+            <input type="text" [(ngModel)]="currentJoueur.dureContrat" name="dureContrat" formControlName="dureContrat" class="form-control">
+            @if (joueurForm.controls['dureContrat']?.hasError('required') && joueurForm.controls['dureContrat']?.touched) {
+                <div class="text-danger">Durée est obligatoire</div>
+            }
+            @if (joueurForm.controls['dureContrat']?.hasError('min') && joueurForm.controls['dureContrat']?.touched) {
+                <div class="text-danger">Durée doit être supérieur à 1 an</div>
+            }
+        </div>
+        <div class="col-sm-2 col-md-2 col-lg-2">
+            <label>Prix de Joueur</label>
+            <input type="number" [(ngModel)]="currentJoueur.prixJoueur" name="prixJoueur" formControlName="prixJoueur" class="form-control">
+            @if (joueurForm.controls['prixJoueur']?.hasError('required') && joueurForm.controls['prixJoueur']?.touched) {
+                <div class="text-danger">Prix est obligatoire</div>
+            }
+            @if (joueurForm.controls['prixJoueur']?.hasError('min') && joueurForm.controls['prixJoueur']?.touched) {
+                <div class="text-danger">Prix doit être supérieur à 0 DT</div>
+            }
+        </div>
+        <div class="mt-2">
+            <button type="submit" (click)="updateJoueur()" [disabled]="joueurForm.invalid" class="btn btn-success">Modifier</button>
+        </div>
+    </form>
+</div>

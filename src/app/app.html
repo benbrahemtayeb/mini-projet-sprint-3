@@ -1,0 +1,55 @@
+<nav class="navbar navbar-dark bg-dark navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Gestion des Joueurs de Football</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/joueurs">Home <span class="sr-only"></span></a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Joueurs
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          @if(authService.isAdmin()) {
+            <a class="dropdown-item" routerLink="/add-joueur">Ajouter</a>
+            <a class="dropdown-item" routerLink="/listeEquipes" >Gestion des equipes</a>
+            }
+          <a class="dropdown-item" href="#">Liste Joueurs</a>
+          <a class="dropdown-item" routerLink="/rechercheParEquipe">Recherche Par Equipe</a> 
+          <a class="dropdown-item" routerLink="/rechercheParNom">Recherche Par Nom</a>
+          
+      
+        </div>
+      </li>
+    </ul>
+    <ul class="navbar-nav ms-auto m-2" >
+      <li class="nav-item dropdown">
+        @if(!authService.isloggedIn){
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Connexion
+          </a>
+        }
+        @else{
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          {{authService.loggedUser}}
+          </a>
+        }
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            @if(!authService.isloggedIn){
+              <li><a class="dropdown-item" routerLink="/login">Login</a></li>
+            }
+            @else{
+              <li><a class="dropdown-item" (click) = "onLogout()" style="cursor: pointer;">Logout</a></li>
+              <li><a class="dropdown-item" href="#">Profile</a></li>
+            }
+            
+            
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+<router-outlet></router-outlet>

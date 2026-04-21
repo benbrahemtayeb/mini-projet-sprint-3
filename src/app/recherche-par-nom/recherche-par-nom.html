@@ -1,0 +1,213 @@
+<style>
+    .form-inline {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .form-group {
+        margin-bottom: 0;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    .form-control {
+        width: 300px;
+        padding: 10px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .card {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .card.shadow {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-body {
+        padding: 30px;
+    }
+
+    .recherche-nom-title {
+        color: #333;
+        font-size: 28px;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .recherche-divider {
+        border: none;
+        height: 1px;
+        background-color: #ddd;
+        margin: 20px 0;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin-top: 20px;
+        font-size: 15px;
+    }
+
+    .table thead tr {
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        color: white;
+    }
+
+    .table th {
+        padding: 16px 14px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-bottom: 3px solid #7c3aed;
+    }
+
+    .table th:first-child {
+        border-top-left-radius: 8px;
+        padding-left: 20px;
+    }
+
+    .table th:last-child {
+        border-top-right-radius: 8px;
+        padding-right: 20px;
+    }
+
+    .table td {
+        padding: 16px 14px;
+        border-bottom: 1px solid #f3f4f6;
+        color: #374151;
+        vertical-align: middle;
+    }
+
+    .table td:first-child {
+        padding-left: 20px;
+        font-weight: 600;
+        color: #6b7280;
+    }
+
+    .table-striped tbody tr:nth-child(odd) {
+        background-color: #ffffff;
+    }
+
+    .table-striped tbody tr:nth-child(even) {
+        background-color: #f9fafb;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f5f3ff;
+        cursor: pointer;
+    }
+
+    .table tbody tr:last-child td:first-child {
+        border-bottom-left-radius: 8px;
+    }
+
+    .table tbody tr:last-child td:last-child {
+        border-bottom-right-radius: 8px;
+    }
+
+    .table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 14px;
+        cursor: pointer;
+        color: white;
+    }
+
+    .btn-success {
+        background-color: #10b981;
+    }
+
+    .btn-success:hover {
+        background-color: #059669;
+    }
+
+    .btn-danger {
+        background-color: #ef4444;
+    }
+
+    .btn-danger:hover {
+        background-color: #dc2626;
+    }
+
+    .no-data-message {
+        color: #ef4444 !important;
+        text-align: center;
+        padding: 40px 0;
+    }
+</style>
+<!-- <form class="form-inline">
+    <div class="form-group mx-sm-3 mb-2 mt-2 ">
+        <label style="font-weight: bolder;">Nom Joueur en tapant</label>
+        <input class="form-control" #searchTerm (keyup)="onKeyUp(searchTerm.value)" placeholder="Tapez ici">
+    </div>
+</form> -->
+<form class="form-inline">
+    <div class="form-group mx-sm-3 mb-2 mt-2 ">
+        <label>Nom Joueur en tapant</label>
+        <input #nom [(ngModel)]="searchTerm" name="searchTerm" class="form-control" placeholder="Tapez ici">
+    </div>
+</form>
+<br>
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <h1 style="text-align: center;">La liste des Joueurs</h1>
+        <hr>
+        <table class="table table-striped">
+            <thead>
+                @if(joueurs && joueurs.length > 0){
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Club</th>
+                    <th>Transfer Date</th>
+                    <th>Contract Duration</th>
+                    <th>Market Value</th>
+                </tr>
+                }
+            </thead>
+            @for(joueur of joueurs | searchFilter: searchTerm; track joueur.idJoueur){
+            <tbody>
+                <tr>
+                    <td>{{joueur.idJoueur}}</td>
+                    <td>{{joueur.nomJoueur}}</td>
+                    <td style="color: plum;">{{joueur.equipe?.nomEquipe}}</td>
+                    <td>{{joueur.dateTransfert | date:'dd/MM/yyyy'}}</td>
+                    <td>{{joueur.dureContrat}}</td>
+                    <td  style="color: #85BB65; font-weight: bold;">€{{joueur.prixJoueur}}M</td>
+                    @if(authService.isAdmin()){
+                    <td><a class="btn btn-success" [routerLink]="['/updateJoueur',joueur.idJoueur]">Modifier</a></td>
+                    <td><a class="btn btn-danger" (click)="supprimerJoueur(joueur)">Supprimer</a></td>
+                    }
+
+                </tr>
+            </tbody>
+            }
+            @empty {
+            <h1 style="color: red;">Aucun joueur trouvé!</h1>
+            }
+
+        </table>
+    </div>
+</div>
+    

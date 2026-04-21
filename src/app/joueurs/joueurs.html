@@ -1,0 +1,145 @@
+<style>
+    /* ========================================
+JOUEURS.CSS - Styles for joueurs.html
+======================================== */
+
+body {
+    background-color: #f5f7fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+}
+
+.card.shadow {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.card-body {
+    padding: 40px;
+}
+
+.mb-4 {
+    margin-bottom: 20px;
+}
+
+.joueurs-title {
+    color: #1f2937;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+    text-align: center;
+}
+
+.joueurs-divider {
+    border: none;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #8b5cf6, transparent);
+    margin: 25px 0;
+}
+
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 20px;
+    font-size: 15px;
+}
+
+.table thead tr {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    color: white;
+}
+
+.table th {
+    padding: 16px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 3px solid #7c3aed;
+}
+
+.table th:first-child {
+    border-top-left-radius: 8px;
+    padding-left: 20px;
+}
+
+.table th:last-child {
+    border-top-right-radius: 8px;
+    padding-right: 20px;
+}
+.table td {padding: 16px 14px;border-bottom: 1px solid #f3f4f6;color: #374151;vertical-align: middle;}
+.table td:first-child {padding-left: 20px;font-weight: 600;color: #6b7280;}
+.table-striped tbody tr:nth-child(odd) {background-color: #ffffff;}
+.table-striped tbody tr:nth-child(even) {background-color: #f9fafb;}
+.table tbody tr:hover {background-color: #f5f3ff;cursor: pointer;}
+.table tbody tr:last-child td:first-child {border-bottom-left-radius: 8px;}
+.table tbody tr:last-child td:last-child {border-bottom-right-radius: 8px;}
+.table tbody tr:last-child td {border-bottom: none;}
+.btn {display: inline-block;padding: 9px 18px;border: none;border-radius: 6px;text-decoration: none;font-size: 13px;font-weight: 600;cursor: pointer;color: white;margin: 0 4px;box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);}
+.btn-success {background-color: #10b981;}
+.btn-success:hover {background-color: #059669;}
+.btn-danger {background-color: #ef4444;}
+.btn-danger:hover {background-color: #dc2626;}
+.no-data-message {color: #ef4444 !important;text-align: center;padding: 60px 0;font-size: 24px;font-weight: 600;}
+.club-column {color: #8b5cf6;font-weight: 500;}
+.value-column {color: #10b981;font-weight: 600;}
+</style>
+<br>
+<div class="container">
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <h1 style="text-align: center;">La liste des Joueurs</h1>
+            <hr>
+            <table class="table table-striped">
+                <thead>
+                    @if(joueurs && joueurs.length > 0){
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Club</th>
+                        <th>Transfer Date</th>
+                        <th>Contract Duration</th>
+                        <th>Market Value</th>
+                    </tr>
+                    }
+                </thead>
+                @for(joueur of joueurs; track joueur.idJoueur){
+                <tbody>
+                    <tr>
+                        <td>{{joueur.idJoueur}}</td>
+                        <td>{{joueur.nomJoueur}}</td>
+                        <td>{{joueur.email}}</td>
+                        <td style="color: plum;">{{joueur.equipe?.nomEquipe}}</td>
+                        <td>{{joueur.dateTransfert | date:'dd/MM/yyyy'}}</td>
+                        <td>{{joueur.dureContrat}} years</td>
+                        <td style="color: #85BB65; font-weight: bold;">€{{joueur.prixJoueur}}M</td>
+                        @if(authService.isAdmin()){
+                        <td><a class="btn btn-success" [routerLink]="['/updateJoueur',joueur.idJoueur]">Modifier</a>
+                        </td>
+                        <td><a class="btn btn-danger" (click)="supprimerJoueur(joueur)">Supprimer</a></td>
+                        }
+                    </tr>
+                </tbody>
+                }
+                @empty {
+                <h1 style="color: red;">Aucun joueur trouvé!</h1>
+                }
+            </table>
+        </div>
+    </div>
+</div>

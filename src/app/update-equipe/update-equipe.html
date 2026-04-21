@@ -1,0 +1,35 @@
+<form>
+    <div hidden>
+        <label>ID Equipe</label>
+        <input type="text" [(ngModel)]="equipe.idEquipe" name="idEquipe" class="form-control w-25">
+    </div>
+    @if(edit){
+        <div>
+            <label>Nom Equipe</label>
+            <input type="text" [(ngModel)]="equipe.nomEquipe" name="nomEquipe" class="form-control"
+                placeholder="Editez le nom d'équipe...">
+        </div>
+        <div id="add-team">
+            Vous voulez ajouter une équipe? <a  (click)="refreshPage()" style="cursor: pointer; text-decoration: underline;">Cliquez ici</a>
+        </div>
+    }
+    @else{
+        <div>
+            <label>Nom Equipe</label>
+            <input type="text" [(ngModel)]="equipe.nomEquipe" name="nomEquipe" class="form-control"
+                placeholder="Entrez un nom d'équipe...">
+        </div>
+    }
+    <div class="mt-2">
+        @if(ajoutSuccessAlert) {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              <strong>L'équipe a été ajouté avec succès!</strong> 
+              <button type="button" class="btn-close" (click)="ajoutSuccessAlert = false" aria-label="Close"></button>
+            </div>
+        }
+        @if(ajout){
+            <button type="submit" [disabled]="!equipe.nomEquipe" class="btn btn-success"
+            (click)="addEquipe()">Ajouter</button>
+        }   
+    </div>
+</form>
