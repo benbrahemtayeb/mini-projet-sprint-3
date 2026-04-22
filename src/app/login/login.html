@@ -94,9 +94,9 @@
       <div class="row justify-content-md-center">
           <div class="col-md-4">
               @if(err==1) {
-                  <div class="alert alert-danger">
-                  <strong>Login ou mot de passe erronés..</strong>
-                  </div>
+                <div class="alert alert-danger">
+                  <strong>{{message}}</strong>
+                </div>
               }
               <form>
                   <div class="form-group">
@@ -110,6 +110,7 @@
                   <div class="row justify-content-md-center">
                       <button type="button" (click)="onLoggedin()" class="btn btn-lg btn-primary mt-3">Connexion</button>
                   </div>
+                  <p>Vous n'avez pas un compte? <a routerLink="/register">S'inscrire</a></p>
               </form>
           </div>
       </div>

@@ -25,10 +25,18 @@ export class RechercheParEquipe implements OnInit{
     }
     );
   }
-  onChange(){
-    this.joueurService.rechercherParEquipe(this.idEquipe!).
-    subscribe(joueur =>{this.joueurs=joueur});
-  }
+  onChange() {
+    this.joueurService.rechercherParEquipe(this.idEquipe!).subscribe(joueurs => {
+        this.joueurs = joueurs;
+        this.joueurs.forEach((j) => {
+            this.joueurService.getImagesJoueur(j.idJoueur!).subscribe((imgs: any[]) => {
+                if (imgs && imgs.length > 0) {
+                    j.imageStr = 'data:' + imgs[0].type + ';base64,' + imgs[0].image;
+                }
+            });
+        });
+    });
+}
   chargerProduits(){
     this.joueurService.listeJoueur().subscribe(joueur => {
     console.log(joueur);

@@ -115,6 +115,12 @@ body {
                         <th>Transfer Date</th>
                         <th>Contract Duration</th>
                         <th>Market Value</th>
+                        <th>Image</th>
+                        @if(authService.isAdmin()){
+                            <th></th>
+                            <th></th>
+                        }
+                        
                     </tr>
                     }
                 </thead>
@@ -128,10 +134,20 @@ body {
                         <td>{{joueur.dateTransfert | date:'dd/MM/yyyy'}}</td>
                         <td>{{joueur.dureContrat}} years</td>
                         <td style="color: #85BB65; font-weight: bold;">€{{joueur.prixJoueur}}M</td>
+                        <td>
+                            @if(joueur.imageStr) {
+                                <img class="card-img-top img-responsive"
+                                  src="{{joueur.imageStr}}"
+                                  style="height:50px;width:100px">
+                            } @else {
+                                <span style="color:#aaa; font-size:12px;">No image</span>
+                            }
+                        </td>
                         @if(authService.isAdmin()){
                         <td><a class="btn btn-success" [routerLink]="['/updateJoueur',joueur.idJoueur]">Modifier</a>
                         </td>
                         <td><a class="btn btn-danger" (click)="supprimerJoueur(joueur)">Supprimer</a></td>
+                        
                         }
                     </tr>
                 </tbody>

@@ -14,6 +14,7 @@ export class Auth {
   public isloggedIn: Boolean = false;
   public roles!: string[];
   private helper = new JwtHelperService();
+  public registredUser: User = new User();
 
   constructor(private router: Router, private http: HttpClient) {}
 
@@ -60,5 +61,22 @@ export class Auth {
     this.isloggedIn = false;
     localStorage.removeItem('jwt');
     this.router.navigate(['/login']);
+  }
+
+  
+  setRegistredUser(user: User) {
+    this.registredUser = user;
+  }
+
+  getRegistredUser() {
+    return this.registredUser;
+  }
+
+  registerUser(user: User) {
+    return this.http.post<User>(this.apiURL + '/register', user, { observe: 'response' });
+  }
+
+  validateEmail(code: string) {
+    return this.http.get<User>(this.apiURL + '/verifyEmail/' + code);
   }
 }

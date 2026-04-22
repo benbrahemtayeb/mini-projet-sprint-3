@@ -152,6 +152,13 @@
                 <div class="text-danger">Prix doit être supérieur à 0.1 €</div>
             }
         </div>
+        <div class="col-sm-16 col-md-16 col-lg-16" style="max-width: 38.75%;">
+            <label class="mb-2">Image :</label>
+            <input type="file" (change)="onImageUpload($event)" name="logo" class="form-control">
+        </div>
+        <div class="col-sm-16 col-md-16 col-lg-16">
+            <img [src]="imagePath" class="card-img-top img-fluid rounded-start" style="width: 500px; height: 300px" />
+        </div>
         
         <div class="mt-2">
             <button type="submit" (click)="addJoueur()" class="btn btn-success" [disabled]="joueurForm.invalid" >Ajouter</button>

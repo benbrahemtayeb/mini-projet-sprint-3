@@ -1,11 +1,14 @@
 package com.tayeb.joueurs.entities;
 
 import java.util.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import java.util.List;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Joueur {
@@ -17,6 +20,10 @@ public class Joueur {
 	private Double prixJoueur;
 	private int dureContrat;
 	private Date dateTransfert;
+	@OneToMany(mappedBy = "joueur")
+	private List<Image> images;
+
+	private String imagePath;
 	
 	@ManyToOne
 	private Equipe equipe;
@@ -84,6 +91,18 @@ public class Joueur {
 	public String toString() {
 		return "Joueur [idJoueur=" + idJoueur + ", nomJoueur=" + nomJoueur + ", email=" + email + ", prixJoueur="
 				+ prixJoueur + ", dureContrat=" + dureContrat + ", dateTransfert=" + dateTransfert + "]";
+	}
+	public List<Image> getImages() {
+	    return images;
+	}
+	public void setImages(List<Image> images) {
+	    this.images = images;
+	}
+	public String getImagePath() {
+	    return imagePath;
+	}
+	public void setImagePath(String imagePath) {
+	    this.imagePath = imagePath;
 	}
 	
 	

@@ -28,20 +28,25 @@ export class RechercheParNom implements OnInit{
     //this.allJoueurs=this.joueurService.listeJoueur();
   }
   ngOnInit(): void {
-    this.joueurService.listeJoueur().subscribe(joueur => {
-      console.log(joueur);
-      this.joueurs = joueur;
-      });
+    this.chargerJoueurs();
   }
+  
   onKeyUp(terme: string): void {
     this.joueurs = this.allJoueurs.filter(item =>
     item.nomJoueur?.toLowerCase().includes(terme));
       
   }
-  chargerProduits(){
-    this.joueurService.listeJoueur().subscribe(joueur => {
-    console.log(joueur);
-    this.joueurs = joueur;
+  chargerJoueurs() {
+    this.joueurService.listeJoueur().subscribe(joueurs => {
+        this.joueurs = joueurs;
+        this.allJoueurs = joueurs;
+        this.joueurs.forEach((j) => {
+            this.joueurService.getImagesJoueur(j.idJoueur!).subscribe((imgs: any[]) => {
+                if (imgs && imgs.length > 0) {
+                    j.imageStr = 'data:' + imgs[0].type + ';base64,' + imgs[0].image;
+                }
+            });
+        });
     });
   }
   supprimerJoueur(j: Joueur){
@@ -49,7 +54,7 @@ export class RechercheParNom implements OnInit{
     if (conf)
       this.joueurService.supprimerJoueur(j.idJoueur!).subscribe(() => {
       console.log("Produit supprimé");
-      this.chargerProduits();
+      this.chargerJoueurs();
     });
   } 
 }
